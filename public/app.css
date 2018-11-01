@@ -45,3 +45,15 @@ section {
 #todoInput:focus {
     outline: none;
 }
+
+/* styling list */
+
+ul {
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
