@@ -17,7 +17,7 @@ router.get("/api/todos/:id", helpers.retrieveTodo)
 
 // update
 
-router.put("/api/todos/:id/edit", helpers.updateTodo)
+router.put("/api/todos/:id", helpers.updateTodo)
 
 // delete 
 

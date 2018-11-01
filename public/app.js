@@ -1,21 +1,16 @@
-var url = "http://localhost:3001/api/todos";
+var url = "/api/todos";
 var list = document.getElementsByClassName("list")[0];
+var input = document.getElementById("todoInput");
 
 
-window.onload = function() {
-    initialFetching();
-}
+
 
 /// initial fetching
 
 function initialFetching() {
     axios(url)
-    .then(function(res) {
-        renderingTodos(res.data)
-    })
-    .catch(function(err) {
-        errorHandler(err)
-    })
+        .then(renderingTodos)
+        .catch(errorHandler)
 }
 
 // error handilng
@@ -33,9 +28,82 @@ function errorHandler(err) {
 // rendering lists in DOM
 
 function renderingTodos(todos) {
-    todos.forEach(function(todo) {
+    list.innerHTML = "";
+    todos.data.forEach(function (todo) {
         var li = document.createElement("li");
-        li.innerText = todo.name;
+        li.id = todo._id;
+        var button = "<button class=\"btn\">X</button>";
+        if (todo.completed) {
+            li.classList.add("done")
+        }
+        li.innerHTML = todo.name + button;
         list.appendChild(li);
     })
 }
+
+/// adding event listener to the list
+
+list.addEventListener("click", function (event) {
+    if (!event.target.matches("button")) {
+        toggleTodoClass(event);
+        comletedOrNot(event);
+    } else if (event.target.matches("button")) {
+        deleteTodo(event);
+    }
+})
+
+
+// setting todo to be completed/not completed
+
+function toggleTodoClass(event) {
+    event.target.classList.toggle("done");
+}
+
+// sending get request to change completed/not completed
+function comletedOrNot(event) {
+    var id = event.target.id;
+    if ( event.target.classList.contains("done")) {
+        axios.put(url + "/" + id, {
+            completed: true,
+        })
+        .then(initialFetching)
+        .catch(errorHandler)
+    } else {
+        axios.put(url + "/" + id, {
+            completed: false,
+        })
+        .then(initialFetching)
+        .catch(errorHandler)
+    }
+    
+}
+
+// crete new todo
+
+input.addEventListener("keypress", function (event) {
+    if (event.which == 13) {
+        axios.post(url, {
+            name: event.target.value
+        })
+            .then(initialFetching)
+            .catch(errorHandler)
+        event.target.value = "";
+    }
+})
+
+/// delete
+
+function deleteTodo(event) {
+    var id = event.target.parentNode.id;
+    axios.delete(url + "/" + id)
+    .then(initialFetching)
+    .catch(errorHandler)
+}
+
+
+/////////////////////////////
+
+window.onload = function () {
+    initialFetching();
+}
+

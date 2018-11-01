@@ -32,7 +32,6 @@ exports.retrieveTodo = function(req, res) {
 
 exports.updateTodo = function(req, res) {
     var data = {
-        name: req.body.name,
         completed: req.body.completed
     }
     ToDo.findByIdAndUpdate(req.params.id, data, {new:true})

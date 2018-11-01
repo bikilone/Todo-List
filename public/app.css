@@ -56,4 +56,36 @@ ul {
 
 ul li {
     margin-bottom: 10px;
+    padding: 10px;
+}
+
+li:hover {
+    background-color: rgb(204, 204, 204);
+}
+
+/* styling buttons */
+.btn {
+    float: right;
+    color: red;
+    border: none;
+    background-color: #ecf0f1;
+    font-size: 16px;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+li:hover .btn {
+    background-color: rgb(204,204,204);
+}
+
+/* line trough class*/
+
+.done {
+    text-decoration: line-through;
 }
